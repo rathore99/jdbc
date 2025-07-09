@@ -6,16 +6,16 @@ import java.util.Scanner;
 public class PreparedStatementDemo {
     public static Connection connection;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Scanner scan = new Scanner(System.in);
         String exit = "Y";
         setDBConnection();
         while (exit.equals("Y")) {
             System.out.println("Enter Employee Id to get details");
             int id = scan.nextInt();
-            //Employee employee = getEmployeeInfo(id);
-            deleteEmployee(id);
-            //System.out.println(employee);
+            Employee employee = getEmployeeInfo(id);
+            //deleteEmployee(id);
+            System.out.println(employee);
             System.out.println("do you wanna continue (Y\\N)");
             exit = scan.next();
         }
@@ -51,24 +51,24 @@ public class PreparedStatementDemo {
 public static Employee getEmployeeInfo(int id) throws SQLException {
 
     Employee employee = new Employee();
-
-    PreparedStatement preparedStatement = setDBConnection().prepareStatement("SELECT * FROM employees WHERE employee_id = ? or first_name = ?");
+ String query = "select e.*,d.department_name from employees e join departments d on e.department_id = d.department_id where e.employee_id = ?;";
+    PreparedStatement preparedStatement = setDBConnection().prepareStatement(query);
     preparedStatement.setInt(1, id);
-    preparedStatement.setString(2, "john");
-    ResultSet rs = preparedStatement.executeQuery();
+   // preparedStatement.setString(2, "john");
+    ResultSet result = preparedStatement.executeQuery();
 
-    while (rs.next()) {
-        //System.out.println(rs.getInt("employee_id") + ": " + rs.getString("first_name"));
-
-        employee.setEmployeeId(rs.getInt("employee_id"));
-        employee.setFirstName(rs.getString("first_name"));
-
-        employee.setLastName(rs.getString("last_name"));
-
-        employee.setEmail(rs.getString("email"));
+    while(result.next()){
+        employee.setId(result.getInt("employee_id"));
+        employee.setFisrtName(result.getString("first_name"));
+        employee.setLastName(result.getString("last_name"));
+        employee.setEmail(result.getString("email"));
+        employee.setMobileNumber(result.getString("phone_number"));
+        employee.setJoiningDate(result.getDate("hire_date"));
+        employee.setSalary(result.getDouble("salary"));
+        employee.setDepartment(result.getString("department_name"));
     }
-
-    rs.close();
+    //System.out.println(employee);
+    result.close();
     preparedStatement.close();
     // conn.close()
     return employee;
@@ -76,13 +76,13 @@ public static Employee getEmployeeInfo(int id) throws SQLException {
 }
 
 
-class Employee {
+class Employee1 {
     int employeeId;
     String firstName;
     String lastName;
     String email;
 
-    public Employee() {
+    public Employee1() {
     }
 
     public int getEmployeeId() {
