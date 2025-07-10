@@ -15,25 +15,17 @@ public class Employee {
     private String department;
     private String mobileNumber;
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", fisrtName='" + fisrtName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", department='" + department + '\'' +
-                ", mobileNumber='" + mobileNumber + '\'' +
-                ", salary=" + salary +
-                ", joiningDate=" + joiningDate +
-                '}';
-    }
 
     private double salary;
+    private String jobId;
     private Date joiningDate;
 
 
-    public Employee(int id, String fisrtName, String lastName, String email, String department, String mobileNumber, double salary, Date joiningDate) {
+    public String getJobId() {
+        return jobId;
+    }
+
+    public Employee(int id, String fisrtName, String lastName, String email,  String mobileNumber,Date joiningDate,  String jobId,double salary, String department) {
         this.id = id;
         this.fisrtName = fisrtName;
         this.lastName = lastName;
@@ -41,7 +33,12 @@ public class Employee {
         this.department = department;
         this.mobileNumber = mobileNumber;
         this.salary = salary;
+        this.jobId = jobId;
         this.joiningDate = joiningDate;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 
     public void setId(int id) {
@@ -98,4 +95,18 @@ public class Employee {
     public String getDepartment() { return department; }
     public double getSalary() { return salary; }
 
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", fisrtName='" + fisrtName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", department='" + department + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                ", salary=" + salary +
+                ", jobId='" + jobId + '\'' +
+                ", joiningDate=" + joiningDate +
+                '}';
     }
+}
